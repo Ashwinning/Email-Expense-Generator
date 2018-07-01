@@ -2,6 +2,8 @@ import gmail
 from Settings import *
 from datetime import datetime
 import time
+from bs4 import BeautifulSoup
+from extract_uber import *
 
 #Initialize this at the beginning of the lifecycle.
 getSettings = GetSettings()
@@ -24,12 +26,15 @@ for email in emails[:]:
     print meta
     metaFile.write(meta)
     #print "Wrote " + str(i) +".html"
+    #Convert email to pdf
+    ### JUST DO IT
     #If the email is from Uber, extract rideInfo
-    #Convert emails to pdf
-    #Write csv with pdf links
+    if "uber" in email.fr:
+        rideInfo = GetDetails(BeautifulSoup(email.html))
+    #Write csv with pdf links & rideInfo where applicable
     i+=1
 metaFile.close()
 
 #create a tarball of the Download
 #upload to s3 or something
-#delete sessionName folder recursively 
+#delete sessionName folder recursively
