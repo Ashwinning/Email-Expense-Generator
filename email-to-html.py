@@ -12,14 +12,14 @@ g = gmail.login(settings['username'], settings['password'])
 excel = []
 
 #emails = g.inbox().mail(after=datetime(2016, 12, 31), sender="Uber Receipts")
-emails = g.mailbox('advantEdge Expense').mail(after=datetime(2019, 03, 17), before=datetime(2019, 05, 30))
+emails = g.mailbox('advantEdge Expense').mail(after=datetime(2019, 10, 31), before=datetime(2019, 11, 26))
 print str(len(emails)) + " emails found"
 i = 0
 for email in emails[:]:
 	email.fetch()
 	datetime = date = str(email.sent_at)
 	date = str(email.sent_at).split(' ')[0]
-	filepath = "emails/May 2019/"
+	filepath = "emails/November 2019/"
 	if not os.path.exists(filepath):
 		os.makedirs(filepath)
 	filename = filepath + date + ' ({}).html'.format(str(i))
