@@ -5,7 +5,7 @@ import time
 from bs4 import BeautifulSoup
 from extract_uber import *
 import pdfkit
-
+import os
 
 #Initialize this at the beginning of the lifecycle.
 getSettings = GetSettings()
@@ -18,6 +18,12 @@ sessionName = str(time.time()) #the name is the timestamp as string - change lat
 emails = g.mailbox('advantEdge Expense').mail(after=datetime(2018, 03, 31))
 print str(len(emails)) + " emails found"
 i = 0;
+
+directory = "emails/{}/html/".format(sessionName)
+if not os.path.exists(directory):
+    os.makedirs(directory)
+    os.makedirs("emails/{}/pdf/".format(sessionName))
+
 metaFile = open("emails/{}/html/files.txt".format(sessionName),"a") #store metadata
 for email in emails[:]:
     email.fetch()
@@ -29,19 +35,14 @@ for email in emails[:]:
     metaFile.write(meta)
     #print "Wrote " + str(i) +".html"
     #Convert email to pdf
-    pdfkit.from_file("emails/"+sessionName+"/html/"+str(i)+".html", "emails/"+sessionName+"/pdf/"+str(i)+".pdf")
+    #pdfkit.from_file("emails/"+sessionName+"/html/"+str(i)+".html", "emails/"+sessionName+"/pdf/"+str(i)+".pdf")
     ### JUST DO IT
-
     #Write Excel Data
-
     #If the email is from Uber, extract rideInfo
+    '''
     if "uber" in email.fr:
         rideInfo = GetDetails(BeautifulSoup(email.html))
         #Write csv with pdf links & rideInfo where applicable
-        
+    '''
     i+=1
 metaFile.close()
-
-#create a tarball of the Download
-#upload to s3 or something
-#delete sessionName folder recursively
